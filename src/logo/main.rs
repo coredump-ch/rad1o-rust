@@ -8,10 +8,9 @@ extern crate rad1o;
 
 use core::intrinsics::powif32;
 
-use rad1o::led::*;
-use rad1o::display::*;
-use rad1o::color::*;
-use rad1o::input::*;
+use rad1o::display::{lcd_display, RESY};
+use rad1o::color::{Color, rgb};
+use rad1o::input::{Key, ENTER, LEFT, RIGHT, UP, DOWN};
 
 mod rust_logo;
 
@@ -41,6 +40,7 @@ pub fn ram() {
     let mut by = 0x00010000;
     let mut dx = 0i32;
     let mut dy = 0i32;
+
     while ! ENTER.get() {
         if UP.get() {
             dy = -1;
