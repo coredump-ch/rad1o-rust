@@ -1,42 +1,22 @@
-# Generate HW interface code from SVD
+# Rust Rad1o
 
 HW: NXP LPC4330
 https://rad1o.badge.events.ccc.de/more_hardware
 
-Download from https://www.lpcware.com/content/nxpfile/lpc43sxx-svd-file
+## Generate HW interface code from SVD
 
-```
-svd2rust -i LPC43xx_43Sxx.svd gpio > src/peripheral/gpio.rs
-rustfmt src/peripheral/gpio.rs
-```
+Download SVD from https://www.lpcware.com/content/nxpfile/lpc43sxx-svd-file
 
-# Building
+    svd2rust -i LPC43xx_43Sxx.svd gpio > src/peripheral/gpio.rs
+    rustfmt src/peripheral/gpio.rs
 
-```
-xargo build --target thumbv7em-none-eabihf -v
-arm-linux-gnueabihf-objcopy --strip-unneeded -O binary target/thumbv7em-none-eabihf/debug/rad1o-rust target/thumbv7em-none-eabihf/debug/rad1o-rust.c1d
-```
+## Building
 
-## Inspect build
+    xargo build --target thumbv7em-none-eabihf -v --release
+    arm-none-eabi-objcopy --strip-unneeded -O binary \
+        target/thumbv7em-none-eabihf/release/logo \
+        target/thumbv7em-none-eabihf/release/logo.c1d
 
-```
-arm-linux-gnueabihf-objdump -SD target/thumbv7em-none-eabihf/debug/rad1o-rust | less
-```
+### Inspect build
 
-# TODO
-
-* split into reusable crates: lpc43xx, rad1o, bins
-* app.b1n?
-* Target m0 processor
-
-## Drivers
-
-* Input
-* Audio
-* USB
-* Flash + fatfs
-* Xilinx CPLD?
-* SDR: MAX2837?
-* contrib to cortex-m:
-  * Timers
-  * MPU
+    arm-none-eabi-objdump -SD target/thumbv7em-none-eabihf/release/logo | less
